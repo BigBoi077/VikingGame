@@ -1,3 +1,5 @@
+package cegepst;
+
 import cegepst.engine.RenderingEngine;
 import cegepst.engine.controls.MovementController;
 
