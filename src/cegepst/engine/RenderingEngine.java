@@ -12,12 +12,12 @@ import java.net.URL;
 public class RenderingEngine {
 
     private static RenderingEngine instance;
-    private JFrame frame;
+    private Screen screen;
     private JPanel panel;
     private BufferedImage bufferedImage;
 
     public void start() {
-        frame.setVisible(true);
+        screen.start();
     }
 
     public void addInputListener(KeyListener listener) {
@@ -31,10 +31,12 @@ public class RenderingEngine {
         return instance;
     }
 
+    public Screen getScreen() {
+        return screen;
+    }
 
     public void stop() {
-        frame.setVisible(false);
-        frame.dispose();
+        screen.end();
     }
 
     public Buffer getRenderingBuffer() {
@@ -57,7 +59,7 @@ public class RenderingEngine {
     }
 
     private RenderingHints getOptimalRenderingHints() {
-        RenderingHints  rh = new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        RenderingHints rh = new RenderingHints(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         rh.put(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
         return rh;
     }
@@ -67,17 +69,12 @@ public class RenderingEngine {
         panel.setBackground(Color.blue);
         panel.setFocusable(true);
         panel.setDoubleBuffered(true);
-        frame.add(panel);
+        screen.setPanel(panel);
     }
 
     private void initialiseFrame() {
-        frame = new JFrame();
-        frame.setSize(800, 600);
-        // Pour centrer
-        frame.setLocationRelativeTo(null);
-        frame.setResizable(false);
-        frame.setTitle("Moving Rectangle Game");
-        frame.setUndecorated(true);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        screen = new Screen();
+        screen.setSize(800, 600);
+        screen.setTitle("Viking Game");
     }
 }

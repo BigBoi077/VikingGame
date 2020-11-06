@@ -2,6 +2,7 @@ package cegepst;
 
 import cegepst.engine.Buffer;
 import cegepst.engine.Game;
+import cegepst.engine.RenderingEngine;
 
 public class VikingGame extends Game {
 
@@ -20,7 +21,8 @@ public class VikingGame extends Game {
 
     @Override
     public void initialise() {
-
+        RenderingEngine.getInstance().getScreen().hideCursor();
+        RenderingEngine.getInstance().getScreen().fullScreen();
     }
 
     @Override
