@@ -14,6 +14,7 @@ public class Player extends ControllableEntity {
 
     private static final String SPRITE_PATH = "images/player.png";
     private static final int ANIMATION_SPEED = 8;
+
     private BufferedImage spriteSheet;
     private Image[] upFrames;
     private Image[] downFrames;
@@ -88,6 +89,6 @@ public class Player extends ControllableEntity {
         rightFrames = new Image[3];
         rightFrames[0] = spriteSheet.getSubimage(0, 192, width, height);
         rightFrames[1] = spriteSheet.getSubimage(32, 192, width, height);
-        rightFrames[1] = spriteSheet.getSubimage(64, 192, width, height);
+        rightFrames[2] = spriteSheet.getSubimage(64, 192, width, height);
     }
 }
