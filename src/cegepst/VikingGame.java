@@ -3,6 +3,11 @@ package cegepst;
 import cegepst.engine.Buffer;
 import cegepst.engine.Game;
 import cegepst.engine.RenderingEngine;
+import cegepst.engine.Sound;
+
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 
 public class VikingGame extends Game {
 
@@ -10,6 +15,7 @@ public class VikingGame extends Game {
     private Tree tree;
     private GamePad gamePad;
     private Player player;
+    private int soundCoolDown;
 
     public VikingGame() {
         gamePad = new GamePad();
@@ -21,8 +27,19 @@ public class VikingGame extends Game {
 
     @Override
     public void initialise() {
-        RenderingEngine.getInstance().getScreen().hideCursor();
-        RenderingEngine.getInstance().getScreen().fullScreen();
+        // RenderingEngine.getInstance().getScreen().hideCursor();
+        // RenderingEngine.getInstance().getScreen().fullScreen();
+        try {
+            Clip clip = AudioSystem.getClip();
+            AudioInputStream inputStream = AudioSystem.getAudioInputStream(
+                    this.getClass().getClassLoader().getResourceAsStream("musics/map.wav")
+            );
+            clip.open(inputStream);
+            clip.loop(Clip.LOOP_CONTINUOUSLY);
+            clip.start();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -30,6 +47,23 @@ public class VikingGame extends Game {
         player.update();
         if (gamePad.isQuitPressed()) {
             super.stop();
+        }
+        soundCoolDown--;
+        if (soundCoolDown < 0) {
+            soundCoolDown = 0;
+        }
+        if (gamePad.isFirePressed() && soundCoolDown == 0) {
+            soundCoolDown = 40;
+            try {
+                Clip clip = AudioSystem.getClip();
+                AudioInputStream inputStream = AudioSystem.getAudioInputStream(
+                        this.getClass().getClassLoader().getResourceAsStream("sounds/best.wav")
+                );
+                clip.open(inputStream);
+                clip.start();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
         if (player.getY() < tree.getY() + 52) {
             tree.blockadeFromTop();
